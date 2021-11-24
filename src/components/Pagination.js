@@ -1,7 +1,7 @@
 const Pagination = ({
   currenciesPerPage,
   totalCurrencies,
-  paginate,
+  handlePaginate,
   prevPage,
   nextPage,
 }) => {
@@ -16,12 +16,12 @@ const Pagination = ({
       <button onClick={prevPage}>Prev</button>
 
       {pageNumbers.map((pageNumber) => (
-        <button key={pageNumber} onClick={() => paginate(pageNumber)}>
+        <button key={pageNumber} onClick={() => handlePaginate(pageNumber)}>
           {pageNumber}
         </button>
       ))}
 
-      <button onClick={nextPage}> Next</button>
+      <button onClick={nextPage}>Next</button>
     </>
   );
 };

@@ -11,9 +11,10 @@ function App() {
   const [searchCurrency, setSearchCurrency] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [currenciesPerPage, setCurrenciesPerPage] = useState(5);
+  const [currenciesPerPage, setCurrenciesPerPage] = useState(20);
 
   // ************ 1. LOAD DATA ************
+
   // GET CURRENCIES
   useEffect(() => {
     const getCurrencies = async () => {
@@ -24,16 +25,23 @@ function App() {
     };
 
     getCurrencies();
-  }, []);
+  }, [savedCurrencies]);
 
   // FETCHING FROM SERVER
   const fetchCurrencies = async () => {
     const res = await fetch("http://localhost:5000/currencies");
+
     const data = await res.json();
+
     return data;
   };
+  // setInterval(async () => {
+  //   console.log("data updated");
+  //   await fetchCurrencies();
+  // }, 60000);
 
   // ************ SEARCH METHOD ************
+
   const handleSearch = () => {
     if (!searchCurrency) {
       alert("Please fill the input data");
@@ -41,13 +49,14 @@ function App() {
     }
 
     const filtered = currencies.filter((curr) =>
-      curr.name.toLowerCase().match(searchCurrency.toLowerCase())
+      curr.name.toString().toLowerCase().match(searchCurrency.toLowerCase())
     );
 
     setCurrencies(filtered); // currencies = filtered
   };
 
   // ************ RESET METHOD ************
+
   const handleReset = () => {
     setSearchCurrency("");
     setCurrencies(savedCurrencies);
@@ -67,14 +76,14 @@ function App() {
   // from (n * X - X) to (n * X)
 
   // SET CURRENT PAGE
-  const paginate = (pageNumber) => {
+  const handlePaginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-    } else return;
+    }
   };
 
   const nextPage = () => {
@@ -103,7 +112,7 @@ function App() {
         <Pagination
           currenciesPerPage={currenciesPerPage}
           totalCurrencies={currencies.length}
-          paginate={paginate}
+          handlePaginate={handlePaginate}
           prevPage={prevPage}
           nextPage={nextPage}
         />
