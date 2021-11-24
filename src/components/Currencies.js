@@ -6,13 +6,11 @@ const Currencies = ({ currencies }) => {
       <thead>
         <tr>
           <td>Currency name</td>
-          <td>Price LOW</td>
-          <td>Price HIGH</td>
         </tr>
       </thead>
       <tbody>
         {currencies.map((currency) => (
-          <Currency key={currency.id} currency={currency} />
+          <Currency key={currency.symbol} currency={currency} />
         ))}
       </tbody>
     </table>

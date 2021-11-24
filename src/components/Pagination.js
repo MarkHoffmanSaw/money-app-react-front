@@ -14,11 +14,13 @@ const Pagination = ({
   return (
     <>
       <button onClick={prevPage}>Prev</button>
+
       {pageNumbers.map((pageNumber) => (
         <button key={pageNumber} onClick={() => paginate(pageNumber)}>
           {pageNumber}
         </button>
       ))}
+
       <button onClick={nextPage}> Next</button>
     </>
   );
