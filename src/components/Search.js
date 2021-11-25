@@ -6,6 +6,7 @@ const Search = ({
 }) => {
   return (
     <>
+      <h3>Search: </h3>
       <input
         type="text"
         placeholder="enter a currency name..."

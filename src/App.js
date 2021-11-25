@@ -13,34 +13,43 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [currenciesPerPage, setCurrenciesPerPage] = useState(20);
 
+  const URL = "http://localhost:5000/currencies";
+  const time = 60000; // 1 min
+
   // ************ 1. LOAD DATA ************
 
-  // GET CURRENCIES
+  // GET CURRENCIES WITH INTERVAL
   useEffect(() => {
-    const getCurrencies = async () => {
-      const currenciesData = await fetchCurrencies();
+    const getData = async () => {
+      {
+        try {
+          const currenciesData = await fetchCurrencies();
 
-      setCurrencies(currenciesData);
-      setSavedCurrencies(currenciesData);
+          setCurrencies(currenciesData);
+          setSavedCurrencies(currenciesData);
+        } catch (err) {
+          console.log(err);
+        }
+      }
     };
 
-    getCurrencies();
-  }, [savedCurrencies]);
+    const intervalID = setInterval(() => {
+      getData();
+    }, time);
+
+    getData();
+
+    return () => clearInterval(intervalID);
+  }, []);
 
   // FETCHING FROM SERVER
   const fetchCurrencies = async () => {
-    const res = await fetch("http://localhost:5000/currencies");
-
+    const res = await fetch(URL);
     const data = await res.json();
-
     return data;
   };
-  // setInterval(async () => {
-  //   console.log("data updated");
-  //   await fetchCurrencies();
-  // }, 60000);
 
-  // ************ SEARCH METHOD ************
+  // ************ 2. SEARCH METHOD ************
 
   const handleSearch = () => {
     if (!searchCurrency) {
@@ -48,32 +57,34 @@ function App() {
       return;
     }
 
+    setCurrencies(savedCurrencies);
+
     const filtered = currencies.filter((curr) =>
-      curr.name.toString().toLowerCase().match(searchCurrency.toLowerCase())
+      curr.name
+        .toString()
+        .toLowerCase()
+        .match(searchCurrency.toString().toLowerCase())
     );
 
     setCurrencies(filtered); // currencies = filtered
   };
 
-  // ************ RESET METHOD ************
+  // ************ 3. RESET METHOD ************
 
   const handleReset = () => {
     setSearchCurrency("");
     setCurrencies(savedCurrencies);
   };
 
-  // ************ PAGINATION ************
+  // ************ 4. PAGINATION ************
 
   // GET CURRENT CURRENCIES
   const indexOfLastCurrency = currentPage * currenciesPerPage;
-  // n * X
   const indexOfFirstCurrency = indexOfLastCurrency - currenciesPerPage;
-  // n * X - X
   const currentCurrency = currencies.slice(
     indexOfFirstCurrency,
     indexOfLastCurrency
   );
-  // from (n * X - X) to (n * X)
 
   // SET CURRENT PAGE
   const handlePaginate = (pageNumber) => {
@@ -95,15 +106,17 @@ function App() {
   return (
     <>
       {/* SEARCH */}
-      <Search
-        handleSearch={handleSearch}
-        handleReset={handleReset}
-        searchCurrency={searchCurrency}
-        setSearchCurrency={setSearchCurrency}
-      />
+      <div className="search">
+        <Search
+          handleSearch={handleSearch}
+          handleReset={handleReset}
+          searchCurrency={searchCurrency}
+          setSearchCurrency={setSearchCurrency}
+        />
+      </div>
 
       {/* CURRENCIES LIST */}
-      <div className="curr-list">
+      <div className="list-item">
         <Currencies currencies={currentCurrency} />
       </div>
 

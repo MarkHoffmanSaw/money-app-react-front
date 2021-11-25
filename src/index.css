@@ -3,6 +3,21 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
+  text-align: center;
+}
+
+.search {
+  margin: 0.5rem;
+}
+
+.list-item {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination {
+  margin: 0.5rem;
 }
 
 table {
@@ -13,4 +28,14 @@ table {
 td {
   border-left: 1px solid black;
   border-bottom: 1px solid black;
+}
+
+button {
+  padding: 2px;
+  margin: 0.1rem;
+}
+
+button:hover {
+  color: white;
+  background-color: rgb(148, 148, 148);
 }

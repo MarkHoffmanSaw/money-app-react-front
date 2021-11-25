@@ -5,7 +5,9 @@ const Currencies = ({ currencies }) => {
     <table>
       <thead>
         <tr>
-          <td>Currency name</td>
+          <td>
+            <h4>Currency name</h4>
+          </td>
         </tr>
       </thead>
       <tbody>
